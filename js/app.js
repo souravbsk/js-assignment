@@ -20,17 +20,7 @@ aiToolsDataLoad(6)
 
 
 
-const FeaturesList = (listData) => {
-    let listItems = '';
 
-    for (const list of listData) {
-        listItems += '<li>' + list + '</li>';
-
-
-    }
-    return listItems;
-
-}
 
 // display ai tools data 
 const displayAiTools = (datas, dataShowValue) => {
@@ -48,7 +38,7 @@ const displayAiTools = (datas, dataShowValue) => {
         console.log(dataSlice);
 
         dataSlice.forEach(data => {
-            const { image, features, name, published_in } = data;
+            const { image, features, name, published_in, id } = data;
             const div = document.createElement('div')
             div.classList.add('card', 'px-6', 'pt-8', 'bg-base-100', 'border', 'transition', 'ease-in-out', 'delay-150', 'hover:shadow-xl')
             // console.log(data);
@@ -72,9 +62,10 @@ const displayAiTools = (datas, dataShowValue) => {
                                 </div>
                             </div>
                             <div>
-                                <label for="my-modal-5" 
+                               <button onclick="singleAiData('${id}')"> <label  for="my-modal-5" 
                                     class="text-2xl cursor-pointer px-5 py-4 transition ease-in-out hover:bg-[#EB5757] delay-100 rounded-full hover:text-white text-[#EB5757]"><i
                                         class="fa-solid fa-arrow-right"></i></label>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -88,8 +79,70 @@ const displayAiTools = (datas, dataShowValue) => {
     }
 
 }
+// listConvert 
+const FeaturesList = (listData) => {
+    let listItems = '';
+
+    for (const list of listData) {
+        listItems += '<li>' + list + '</li>';
+    }
+    return listItems;
+
+}
 
 
+// singleDataFeatureList
+const singleDataFeatureList = (listData) => {
+    let listItems = '';
+
+    for (const list in listData) {
+        const { feature_name } = listData[list];
+        listItems += '<li>' + feature_name + '</li>';
+    }
+    return listItems;
+
+}
+
+
+// singleAiToolData 
+const singleAiData = async (dataId) => {
+    try {
+        const url = `https://openapi.programming-hero.com/api/ai/tool/${dataId}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.status) {
+            alert('data not found');
+            return
+        }
+        displaySingleData(data?.data);
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
+
+// display single ai data 
+const displaySingleData = (singleData) => {
+    console.log(singleData);
+    const { accuracy, description, features, integrations, pricing, image_link, input_output_examples } = singleData;
+    const { score } = accuracy;
+
+    document.getElementById('descriptionAi').innerText = description;
+    document.getElementById('featuresAi').innerHTML = `${singleDataFeatureList(features)}`;
+    document.getElementById('IntegrationsAi').innerHTML = `${integrations ? FeaturesList(integrations) : 'No data Found'}`;
+    document.getElementById('singleAiImg').setAttribute('src', `${image_link[0]}`)
+    document.getElementById('accuracyBadge').innerHTML = `${score  ? `<div class="badge badge-error px-5 py-5 rounded-xl text-lg font-semibold text-white ">
+    ${score*100}% accuracy
+</div>`: ''} `
+    document.getElementById('aiQuestion').innerText = `${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}`
+    document.getElementById('aiAnswer').innerText = `${input_output_examples ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}`
+    console.log(input_output_examples);
+
+
+}
 
 // show more data load btn 
 const dataLoadMore = () => {
