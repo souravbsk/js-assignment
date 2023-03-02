@@ -44,7 +44,10 @@
         <!-- ai cads section start -->
 
         <section class="mt-10">
-            <div id="aiCardContainer" class="grid grid-cols-3 gap-5">
+
+
+
+            <div id="aiCardContainer" class="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-5">
                 <!-- <div class="card px-6 pt-8 w-96 bg-base-100 border transition ease-in-out delay-150 hover:shadow-xl">
                     <figure>
                         <img src="Rectangle 23.png" alt="Shoes" class="rounded-xl" />
@@ -76,9 +79,10 @@
                 </div> -->
             </div>
 
+
             <!-- spinner added  start-->
             <div class="flex items-center justify-center">
-                <div role="status" class="hidden">
+                <div role="status" id="spinner" class="hidden">
                     <svg aria-hidden="true"
                         class="w-11 h-11 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,12 +97,13 @@
                 </div>
             </div>
             <!-- spinner added  end-->
-
             <!-- see more btn start  -->
 
 
             <div class="text-center mt-12">
-                <button class="btn bg-[#EB5757] text-lg border-0 rounded-md text-white normal-case">See More</button>
+                <button id="loadMore" onclick="dataLoadMore()"
+                    class="btn loadMore bg-[#EB5757] text-lg border-0 rounded-md text-white normal-case">See
+                    More</button>
             </div>
             <!-- see more btn end -->
         </section>
