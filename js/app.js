@@ -8,12 +8,12 @@ const aiToolsDataLoad = async (dataShowValue) => {
             console.log('sorry data no found')
         }
         dataLoadingSpinner(true)
-        displayAiTools(data.data?.tools,dataShowValue);
+        displayAiTools(data.data?.tools, dataShowValue);
 
 
 
     } catch (error) {
-
+        error.message
     }
 }
 aiToolsDataLoad(6)
@@ -33,25 +33,26 @@ const FeaturesList = (listData) => {
 }
 
 // display ai tools data 
-const displayAiTools = (datas,dataShowValue) => {
-    const aiCardContainer = document.getElementById('aiCardContainer');
-    aiCardContainer.textContent = '';
+const displayAiTools = (datas, dataShowValue) => {
+    try {
+        const aiCardContainer = document.getElementById('aiCardContainer');
+        aiCardContainer.textContent = '';
 
-    let dataSlice;
-    if(dataShowValue === 6){
-         dataSlice = datas.slice(0,6);
-    }
-    else{
-        dataSlice = datas;
-    }
-    console.log(dataSlice);
-    
-    dataSlice.forEach(data => {
-        const { image, features, name, published_in } = data;
-        const div = document.createElement('div')
-        div.classList.add('card', 'px-6', 'pt-8', 'bg-base-100', 'border', 'transition', 'ease-in-out', 'delay-150', 'hover:shadow-xl')
-        // console.log(data);
-        div.innerHTML = `
+        let dataSlice;
+        if (dataShowValue === 6) {
+            dataSlice = datas.slice(0, 6);
+        }
+        else {
+            dataSlice = datas;
+        }
+        console.log(dataSlice);
+
+        dataSlice.forEach(data => {
+            const { image, features, name, published_in } = data;
+            const div = document.createElement('div')
+            div.classList.add('card', 'px-6', 'pt-8', 'bg-base-100', 'border', 'transition', 'ease-in-out', 'delay-150', 'hover:shadow-xl')
+            // console.log(data);
+            div.innerHTML = `
         <figure>
                         <img src=${image} alt="Shoes" class="rounded-xl" />
                     </figure>
@@ -71,17 +72,20 @@ const displayAiTools = (datas,dataShowValue) => {
                                 </div>
                             </div>
                             <div>
-                                <a
-                                    class="text-xl px-3 py-2 transition ease-in-out hover:bg-[#EB5757] delay-100 rounded-full hover:text-white text-[#EB5757]"><i
-                                        class="fa-solid fa-arrow-right"></i></a>
+                                <label for="my-modal-5" 
+                                    class="text-2xl cursor-pointer px-5 py-4 transition ease-in-out hover:bg-[#EB5757] delay-100 rounded-full hover:text-white text-[#EB5757]"><i
+                                        class="fa-solid fa-arrow-right"></i></label>
                             </div>
                         </div>
                     </div>
         
         `
-        aiCardContainer.appendChild(div)
-    });
-    dataLoadingSpinner(false)
+            aiCardContainer.appendChild(div)
+        });
+        dataLoadingSpinner(false)
+    } catch (error) {
+        console.log(error.message)
+    }
 
 }
 
@@ -92,12 +96,12 @@ const dataLoadMore = () => {
     const loadMore = document.getElementById('loadMore');
     const loadMorClassName = loadMore.className;
     dataLoadingSpinner(true)
-    if(loadMorClassName.includes('loadMore')){
+    if (loadMorClassName.includes('loadMore')) {
         aiToolsDataLoad(8);
         loadMore.innerText = 'Less More';
         loadMore.classList.remove('loadMore');
     }
-    else{
+    else {
         aiToolsDataLoad(6);
         loadMore.innerText = 'Show More';
         loadMore.classList.add('loadMore');
