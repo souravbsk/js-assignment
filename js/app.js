@@ -112,15 +112,15 @@ const singleAiData = async (dataId) => {
         const url = `https://openapi.programming-hero.com/api/ai/tool/${dataId}`;
         const res = await fetch(url);
         const data = await res.json();
-
         if (!data.status) {
             alert('data not found');
             return
         }
+        // console.log(data);
         displaySingleData(data?.data);
 
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 }
 
@@ -131,7 +131,8 @@ const displaySingleData = (singleData) => {
     console.log(singleData);
     const { accuracy, description, features, integrations, pricing, image_link, input_output_examples } = singleData;
     const { score } = accuracy;
-    const [basic, pro, diamond] = pricing;
+    // const [basic, pro, diamond] = pricing;
+    console.log(image_link);
 
     document.getElementById('descriptionAi').innerText = description;
     document.getElementById('featuresAi').innerHTML = `${singleDataFeatureList(features)}`;
@@ -142,10 +143,10 @@ const displaySingleData = (singleData) => {
 </div>`: ''} `
     document.getElementById('aiQuestion').innerText = `${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}`
     document.getElementById('aiAnswer').innerText = `${input_output_examples ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}`
-    document.getElementById('basicPlan').innerHTML = `${pricing ? basic.price + '<br>' + basic.plan : 'No data Found'}`
-    document.getElementById('proPlan').innerHTML = `${pricing ? pro.price + '<br>' + pro.plan : 'No data Found'}`
-    document.getElementById('diamond').innerHTML = `${pricing ? diamond.price + '<br>' + diamond.plan : 'No data Found'}`
-    console.log(pricing);
+    document.getElementById('basicPlan').innerHTML = `${pricing ? pricing[0].price + '<br>' + pricing[0].plan : 'No data Found'}`
+    document.getElementById('proPlan').innerHTML = `${pricing ? pricing[1].price + '<br>' + pricing[1].plan : 'No data Found'}`
+    document.getElementById('diamond').innerHTML = `${pricing ? pricing[2].price + '<br>' + pricing[2].plan : 'No data Found'}`
+    console.log(singleData);
 }
 
 // show more data load btn 
