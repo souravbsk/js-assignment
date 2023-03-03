@@ -132,7 +132,7 @@ const displaySingleData = (singleData) => {
     document.getElementById('featuresAi').innerHTML = `${singleDataFeatureList(features)}`;
     document.getElementById('IntegrationsAi').innerHTML = `${integrations ? FeaturesList(integrations) : 'No data Found'}`;
     document.getElementById('singleAiImg').setAttribute('src', `${image_link[0]}`)
-    document.getElementById('accuracyBadge').innerHTML = `${score ? `<div class="badge badge-error px-5 py-5 rounded-xl text-lg font-semibold text-white ">
+    document.getElementById('accuracyBadge').innerHTML = `${score ? `<div class="badge badge-error px-5 py-5 rounded-xl md:text-lg font-semibold text-white ">
     ${score * 100}% accuracy
 </div>`: ''} `
     document.getElementById('aiQuestion').innerText = `${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}`
