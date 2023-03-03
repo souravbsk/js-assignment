@@ -14,15 +14,9 @@ const aiToolsDataLoad = async (dataShowValue) => {
 
 
     } catch (error) {
-        error.message
+        console.log(error);
     }
 }
-aiToolsDataLoad(6)
-
-
-
-
-
 // display ai tools data 
 const displayAiTools = (datas, dataShowValue) => {
     try {
@@ -37,12 +31,12 @@ const displayAiTools = (datas, dataShowValue) => {
             dataSlice = datas;
         }
 
-        console.log(dataSlice);
+
+
         dataSlice.forEach(data => {
             const { image, features, name, published_in, id } = data;
             const div = document.createElement('div')
             div.classList.add('card', 'px-6', 'pt-8', 'bg-base-100', 'border', 'transition', 'ease-in-out', 'delay-150', 'hover:shadow-xl')
-            // console.log(data);
             div.innerHTML = `
             <figure>
             <img src=${image} alt="Shoes" class="rounded-xl" />
@@ -73,11 +67,14 @@ const displayAiTools = (datas, dataShowValue) => {
                                     
                                     `
             aiCardContainer.appendChild(div)
+            dataLoadingSpinner(false)
         });
+
+
         newArray = dataSlice;
-        dataLoadingSpinner(false)
+
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
     }
 
 }
@@ -128,11 +125,8 @@ const singleAiData = async (dataId) => {
 
 // display single ai data 
 const displaySingleData = (singleData) => {
-    console.log(singleData);
     const { accuracy, description, features, integrations, pricing, image_link, input_output_examples } = singleData;
     const { score } = accuracy;
-    // const [basic, pro, diamond] = pricing;
-    console.log(image_link);
 
     document.getElementById('descriptionAi').innerText = description;
     document.getElementById('featuresAi').innerHTML = `${singleDataFeatureList(features)}`;
@@ -146,8 +140,14 @@ const displaySingleData = (singleData) => {
     document.getElementById('basicPlan').innerHTML = `${pricing ? pricing[0].price + '<br>' + pricing[0].plan : 'No data Found'}`
     document.getElementById('proPlan').innerHTML = `${pricing ? pricing[1].price + '<br>' + pricing[1].plan : 'No data Found'}`
     document.getElementById('diamond').innerHTML = `${pricing ? pricing[2].price + '<br>' + pricing[2].plan : 'No data Found'}`
-    console.log(singleData);
 }
+
+
+
+// default data show 
+aiToolsDataLoad(6)
+
+
 
 // show more data load btn 
 const dataLoadMore = () => {
@@ -181,15 +181,11 @@ const dataLoadingSpinner = (isSpinner) => {
 }
 
 
-
 // sorting with date 
 const sortingData = () => {
+    dataLoadingSpinner(true)
     newArray.sort((a, b) => {
-        const aiDateOne = new Date(a.published_in)
-        const aiDateOneTime = aiDateOne.getTime();
-        const aiDateTwo = new Date(b.published_in)
-        const aiDateTwoTime = aiDateTwo.getTime()
-        return aiDateTwoTime - aiDateOneTime;
+        return new Date(a.published_in) - new Date(b.published_in)
     })
     displayAiTools(newArray)
 }
