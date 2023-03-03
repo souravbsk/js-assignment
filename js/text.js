@@ -1,4 +1,5 @@
 let newArray = [];
+let defaultData = []
 // ai tools data load 
 const aiToolsDataLoad = async (dataShowValue) => {
     try {
@@ -6,7 +7,7 @@ const aiToolsDataLoad = async (dataShowValue) => {
         const res = await fetch(url);
         const data = await res.json();
         if (!data.status) {
-            console.log('sorry data no found')
+            //console.log('sorry data no found')
         }
         dataLoadingSpinner(true)
         displayAiTools(data.data?.tools, dataShowValue);
@@ -23,64 +24,82 @@ aiToolsDataLoad(6)
 
 
 
-// display ai tools data 
-const displayAiTools = (datas, dataShowValue) => {
-    try {
-        const aiCardContainer = document.getElementById('aiCardContainer');
-        aiCardContainer.textContent = '';
 
+
+
+
+
+// display ai tools data 
+const displayAiTools = (datas) => {
+    try {
+
+        
         let dataSlice;
-        if (dataShowValue === 6) {
+        if (datas.length > 6) {
             dataSlice = datas.slice(0, 6);
         }
         else {
             dataSlice = datas;
         }
+        newArray = datas;
 
-        console.log(dataSlice);
-        dataSlice.forEach(data => {
-            const { image, features, name, published_in, id } = data;
-            const div = document.createElement('div')
-            div.classList.add('card', 'px-6', 'pt-8', 'bg-base-100', 'border', 'transition', 'ease-in-out', 'delay-150', 'hover:shadow-xl')
-            // console.log(data);
-            div.innerHTML = `
-            <figure>
-            <img src=${image} alt="Shoes" class="rounded-xl" />
-                    </figure>
-                    <div class="card-body justify-between px-0">
-                        <div class="space-y-3 pb-5">
-                            <h2 class="card-title text-2xl font-bold">Features</h2>
-                            <ul class="list-decimal list-inside text-base space-y-1">
-                             ${features ? FeaturesList(features) : 'not available'}
-                             </ul>
-                             </div>
-                             <div class="pt-2 flex justify-between border-t-2 items-center">
-                            <div class="space-y-3">
-                            <h2 class="card-title text-2xl font-bold">${name ? name : "not available"}</h2>
-                                <div class="flex items-center gap-3">
-                                    <span class="text-lg"><i class="fa-solid fa-calendar-week"></i></span>
-                                    <span class="text-lg">${published_in ? published_in : 'not available'}</span>
-                                    </div>
-                            </div>
-                            <div>
-                            <button onclick="singleAiData('${id}')"> <label  for="my-modal-5" 
-                                    class="text-2xl cursor-pointer px-5 py-4 transition ease-in-out hover:bg-[#EB5757] delay-100 rounded-full hover:text-white text-[#EB5757]"><i
-                                    class="fa-solid fa-arrow-right"></i></label>
-                                    </button>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    
-                                    `
-            aiCardContainer.appendChild(div)
-        });
-        newArray = dataSlice;
-        dataLoadingSpinner(false)
+        displayCardShow(dataSlice)
+
+        //console.log(dataSlice);
+
     } catch (error) {
-        console.log(error.message)
+        //console.log(error.message)
     }
 
 }
+
+// show data in display 
+
+const displayCardShow = (datas) => {
+    //console.log(datas);
+    const aiCardContainer = document.getElementById('aiCardContainer');
+    aiCardContainer.textContent = '';
+    datas.forEach(data => {
+        const { image, features, name, published_in, id } = data;
+        const div = document.createElement('div')
+        div.classList.add('card', 'px-6', 'pt-8', 'bg-base-100', 'border', 'transition', 'ease-in-out', 'delay-150', 'hover:shadow-xl')
+        // //console.log(data);
+        div.innerHTML = `
+    <figure>
+                    <img src=${image} alt="Shoes" class="rounded-xl" />
+                </figure>
+                <div class="card-body justify-between px-0">
+                    <div class="space-y-3 pb-5">
+                        <h2 class="card-title text-2xl font-bold">Features</h2>
+                        <ul class="list-decimal list-inside text-base space-y-1">
+                         ${features ? FeaturesList(features) : 'not available'}
+                        </ul>
+                    </div>
+                    <div class="pt-2 flex justify-between border-t-2 items-center">
+                        <div class="space-y-3">
+                            <h2 class="card-title text-2xl font-bold">${name ? name : "not available"}</h2>
+                            <div class="flex items-center gap-3">
+                                <span class="text-lg"><i class="fa-solid fa-calendar-week"></i></span>
+                                <span class="text-lg">${published_in ? published_in : 'not available'}</span>
+                            </div>
+                        </div>
+                        <div>
+                           <button onclick="singleAiData('${id}')"> <label  for="my-modal-5" 
+                                class="text-2xl cursor-pointer px-5 py-4 transition ease-in-out hover:bg-[#EB5757] delay-100 rounded-full hover:text-white text-[#EB5757]"><i
+                                    class="fa-solid fa-arrow-right"></i></label>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+    `
+        aiCardContainer.appendChild(div)
+    });
+    dataLoadingSpinner(false)
+
+}
+
+
 // listConvert 
 const FeaturesList = (listData) => {
     let listItems = '';
@@ -120,7 +139,7 @@ const singleAiData = async (dataId) => {
         displaySingleData(data?.data);
 
     } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
     }
 }
 
@@ -128,6 +147,7 @@ const singleAiData = async (dataId) => {
 
 // display single ai data 
 const displaySingleData = (singleData) => {
+    //console.log(singleData);
     console.log(singleData);
     const { accuracy, description, features, integrations, pricing, image_link, input_output_examples } = singleData;
     const { score } = accuracy;
@@ -142,28 +162,29 @@ const displaySingleData = (singleData) => {
 </div>`: ''} `
     document.getElementById('aiQuestion').innerText = `${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}`
     document.getElementById('aiAnswer').innerText = `${input_output_examples ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}`
-    document.getElementById('basicPlan').innerHTML = `${pricing ? basic.price + '<br>' + basic.plan : 'No data Found'}`
-    document.getElementById('proPlan').innerHTML = `${pricing ? pro.price + '<br>' + pro.plan : 'No data Found'}`
-    document.getElementById('diamond').innerHTML = `${pricing ? diamond.price + '<br>' + diamond.plan : 'No data Found'}`
-    console.log(pricing);
+    document.getElementById('basicPlan').innerHTML = `${pricing ? 'dfdfdf' : 'No data Found'}`
+    //console.log(pricing);
+
+
 }
 
 // show more data load btn 
 const dataLoadMore = () => {
     const loadMore = document.getElementById('loadMore');
     const loadMorClassName = loadMore.className;
-    dataLoadingSpinner(true)
-    if (loadMorClassName.includes('loadMore')) {
-        aiToolsDataLoad(8);
-        loadMore.innerText = 'Less More';
-        loadMore.classList.remove('loadMore');
-    }
-    else {
-        aiToolsDataLoad(6);
-        loadMore.innerText = 'Show More';
-        loadMore.classList.add('loadMore');
+    dataLoadingSpinner(true);
+    displayCardShow(newArray);
+    // if (loadMorClassName.includes('loadMore')) {
+    //     displayCardShow(newArray);
+    //     loadMore.innerText = 'Less More';
+    //     loadMore.classList.remove('loadMore');
+    // }
+    // else {
+    //     displayCardShow(newArray);
+    //     loadMore.innerText = 'Show More';
+    //     loadMore.classList.add('loadMore');
 
-    }
+    // }
 }
 
 
@@ -181,14 +202,20 @@ const dataLoadingSpinner = (isSpinner) => {
 
 
 
-// sorting with date 
-const sortingData = () => {
+// sorting 
+document.getElementById('sortingBtn').addEventListener('click', () => {
     newArray.sort((a, b) => {
         const aiDateOne = new Date(a.published_in)
         const aiDateOneTime = aiDateOne.getTime();
         const aiDateTwo = new Date(b.published_in)
-        const aiDateTwoTime = aiDateTwo.getTime()
-        return aiDateTwoTime - aiDateOneTime;
+        const aiDateTwoTime = aiDateTwo.getTime();
+        return aiDateOneTime - aiDateTwoTime;
     })
+    dataLoadingSpinner(true)
+
     displayAiTools(newArray)
-}
+    //console.log(newArray);
+
+})
+
+// sorting with date 

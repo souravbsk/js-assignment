@@ -24,7 +24,7 @@
         <!-- sorting start -->
         <section>
             <div class="text-center">
-                <button class="btn bg-[#EB5757] normal-case text-lg border-0 rounded-md text-white">Sort By
+                <button id="sortingBtn" onclick="sortingData()"  class="btn bg-[#EB5757] normal-case text-lg border-0 rounded-md text-white">Sort By
                     Date</button>
             </div>
         </section>
@@ -128,13 +128,13 @@
                                         GPT technology</h2>
                                     <div class="grid md:grid-cols-3 grid-cols-1 gap-3 text-center">
                                         <div class="bg-white rounded-xl  px-5 py-5">
-                                            <h2 class="text-green-500 font-bold" id="basicPlan">$10/month Basic</h2>
+                                            <h2 class="text-green-500 font-bold" id="basicPlan"></h2>
                                         </div>
                                         <div class="bg-white rounded-xl  px-5 py-5">
-                                            <h2 class="text-orange-400 font-bold">$50/month Pro</h2>
+                                            <h2 class="text-orange-400 font-bold" id="proPlan">$50/month Pro</h2>
                                         </div>
                                         <div class="bg-white rounded-xl  px-5 py-5">
-                                            <h2 class="text-red-500 font-bold">$10/month Basic</h2>
+                                            <h2 class="text-red-500 font-bold" id="diamond">$10/month Basic</h2>
                                         </div>
                                     </div>
                                     <div class="flex flex-col lg:flex-row md:gap-1 gap-5 justify-between">
