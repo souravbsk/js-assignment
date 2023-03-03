@@ -125,19 +125,17 @@ const displaySingleData = (singleData) => {
 
         const { accuracy, description, features, integrations, pricing, image_link, input_output_examples } = singleData;
         const { score } = accuracy;
-        document.getElementById('descriptionAi').innerText = `${description ? description : 'content not available'}`;
-        document.getElementById('featuresAi').innerHTML = `${features ? singleDataFeatureList(features) : 'No data Found'}`;
-        document.getElementById('IntegrationsAi').innerHTML = `${integrations ? FeaturesList(integrations) : 'No data Found'}`;
-        document.getElementById('singleAiImg').setAttribute('src', `${image_link[0]}`)
-        document.getElementById('accuracyBadge').innerHTML = `${score ? `<div class="badge badge-error px-5 py-5 rounded-xl md:text-lg font-semibold text-white ">
-    ${score * 100}% accuracy
-</div>`: ''} `
-        document.getElementById('aiQuestion').innerText = `${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}`
-        document.getElementById('aiAnswer').innerText = `${input_output_examples ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}`
-        document.getElementById('basicPlan').innerHTML = `${pricing ? pricing[0].price + '<br>' + pricing[0].plan : 'No data Found'}`
-        document.getElementById('proPlan').innerHTML = `${pricing ? pricing[1].price + '<br>' + pricing[1].plan : 'No data Found'}`
-        document.getElementById('diamond').innerHTML = `${pricing ? pricing[2].price + '<br>' + pricing[2].plan : 'No data Found'}`
-
+                document.getElementById('descriptionAi').innerText = `${description ? description : 'content not available'}`;
+                document.getElementById('featuresAi').innerHTML = `${features ? singleDataFeatureList(features) : 'No data Found'}`;
+                document.getElementById('IntegrationsAi').innerHTML = `${integrations ? FeaturesList(integrations) : 'No data Found'}`;
+                document.getElementById('singleAiImg').setAttribute('src', `${image_link[0]}`)
+                document.getElementById('accuracyBadge').innerHTML = `${score ? `<div class="badge badge-error px-5 py-5 rounded-xl md:text-lg font-semibold text-white ">
+            ${score * 100}% accuracy </div>`: ''} `;
+                document.getElementById('aiQuestion').innerText = `${input_output_examples ? input_output_examples[0].input : 'Can you give any example?'}`;
+                document.getElementById('aiAnswer').innerText = `${input_output_examples ? input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}`;
+                document.getElementById('basicPlan').innerHTML = `${pricing ? pricing[0].price + '<br>' + pricing[0].plan : 'No data Found'}`;
+                document.getElementById('proPlan').innerHTML = `${pricing ? pricing[1].price + '<br>' + pricing[1].plan : 'No data Found'}`;
+                document.getElementById('diamond').innerHTML = `${pricing ? pricing[2].price + '<br>' + pricing[2].plan : 'No data Found'}`;
 
     } catch (error) {
         console.log(error);
