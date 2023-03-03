@@ -5,12 +5,17 @@ const aiToolsDataLoad = async (dataShowValue) => {
         const url = `https://openapi.programming-hero.com/api/ai/tools`;
         const res = await fetch(url);
         const data = await res.json();
+        
+        
         if (!data.status) {
             console.log('sorry data no found')
+            return
         }
-        dataLoadingSpinner(true)
-        displayAiTools(data.data?.tools, dataShowValue);
 
+            dataLoadingSpinner(true)
+    
+
+        displayAiTools(data.data?.tools, dataShowValue);
 
 
     } catch (error) {
@@ -67,11 +72,11 @@ const displayAiTools = (datas, dataShowValue) => {
                                     
                                     `
             aiCardContainer.appendChild(div)
-            dataLoadingSpinner(false)
         });
-
-
+        
+        
         newArray = dataSlice;
+        dataLoadingSpinner(false)
 
     } catch (error) {
         console.log(error)
@@ -128,8 +133,9 @@ const displaySingleData = (singleData) => {
     const { accuracy, description, features, integrations, pricing, image_link, input_output_examples } = singleData;
     const { score } = accuracy;
 
-    document.getElementById('descriptionAi').innerText = description;
-    document.getElementById('featuresAi').innerHTML = `${singleDataFeatureList(features)}`;
+
+    document.getElementById('descriptionAi').innerText = `${description ? description : 'content not available'}`;
+    document.getElementById('featuresAi').innerHTML = `${features ? singleDataFeatureList(features) : 'No data Found'}`;
     document.getElementById('IntegrationsAi').innerHTML = `${integrations ? FeaturesList(integrations) : 'No data Found'}`;
     document.getElementById('singleAiImg').setAttribute('src', `${image_link[0]}`)
     document.getElementById('accuracyBadge').innerHTML = `${score ? `<div class="badge badge-error px-5 py-5 rounded-xl md:text-lg font-semibold text-white ">
